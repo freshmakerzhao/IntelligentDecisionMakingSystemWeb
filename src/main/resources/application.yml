@@ -1,0 +1,22 @@
+# 默认是8080端口，因为与vue冲突，所以在这里改为9090
+server:
+  port: 9090
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/23db_weixinghai?serverTimezone=GMT%2b8
+    username: root
+    password: 123456
+mybatis:
+  mapper-locations: classpath:mapper/*.xml  # 扫描所有mybatis的xml文件
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 将对应的sql语句输出到控制台
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# 定义上传文件的存储路径
+files:
+  upload:
+    path: D:/WorkSpace_Vue/Files_suhuanzhe/
