@@ -1,0 +1,6 @@
+SpringBoot2 + Vue2 + ElementUI + Axios + Mysql
+
+前端写vuw2和ElementUI
+后台写springboot2和mybatis-plus
+数据库是mysql
+前后端交互使用了Axios插件
