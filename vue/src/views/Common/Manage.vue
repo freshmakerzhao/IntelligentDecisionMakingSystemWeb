@@ -25,8 +25,8 @@
 
 // 导入组件
 
-import Aside from "../../components/Level1/Aside";
-import Header from "../../components/Level1/Header";
+import Aside from "../../components/Level2/Aside";
+import Header from "../../components/Level2/Header";
 
 export default {
     name: 'Manage',

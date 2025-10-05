@@ -53,7 +53,7 @@
                 this.$message.success("退出成功");
             },
             goPerson(){
-                this.$router.push("/level1/person");
+                this.$router.push("/Administrator/person");
             }
         },
     }
