@@ -18,8 +18,8 @@
     </el-menu-item>
     <el-menu-item index="/dashboard/cases" class="menu-item-flex">
       <div class="menu-label">
-        <div class="menu-cn">案例介绍</div>
-        <div class="menu-en">Cases</div>
+        <div class="menu-cn">项目案例</div>
+        <div class="menu-en">Case Studies</div>
       </div>
     </el-menu-item>
     <el-menu-item index="/dashboard/faq" class="menu-item-flex">
@@ -34,10 +34,10 @@
         <div class="menu-en">Model Decision</div>
       </div>
     </el-menu-item>
-    <el-menu-item index="/dashboard/contact" class="menu-item-flex">
+    <el-menu-item index="/dashboard/about" class="menu-item-flex">
       <div class="menu-label">
-        <div class="menu-cn">联系我们</div>
-        <div class="menu-en">Contact Us</div>
+        <div class="menu-cn">团队介绍</div>
+        <div class="menu-en">Team Introduction</div>
       </div>
     </el-menu-item>
   </el-menu>
