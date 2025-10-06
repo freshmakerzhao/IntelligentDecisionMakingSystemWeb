@@ -1,23 +1,25 @@
 <template>
     <el-container style="min-height: 100vh">
         <!-- @asideCollapse传递方法，冒号传递变量-->
-            <el-container>
-                <!-- 顶部大图 banner（在导航栏上方） -->
-                <div class="top-banner">
-                    <div class="banner-inner">
-                        <h1 class="banner-title">矿山安全开采智能决策系统</h1>
-                    </div>
+        <el-container>
+            <!-- 顶部大图 banner（在导航栏上方） -->
+            <div class="top-banner">
+                <div class="banner-inner">
+                    <h1 class="banner-title">矿山安全开采智能决策系统</h1>
                 </div>
-                <!-- 去掉导航栏两侧空隙，横向填满 -->
-                <el-header class="dashboard-header-el" style="border-bottom: 1px solid #ccc; padding: 0;">
-                    <div class="header-wrap">
-                        <Header :collapseBtnClass="collapseBtnClass" @asideCollapse="collapse" :user="user"/>
-                    </div>
-                </el-header>
+            </div>
+            <!-- 去掉导航栏两侧空隙，横向填满 -->
+            <el-header class="dashboard-header-el" style="border-bottom: 1px solid #ccc; padding: 0;">
+                <div class="header-wrap">
+                    <Header :collapseBtnClass="collapseBtnClass" @asideCollapse="collapse" :user="user"/>
+                </div>
+            </el-header>
             <el-main>
                 <!-- 表示当前页面的子路由在router-view中展示-->
                 <router-view @refreshUser="getUser" />
             </el-main>
+            
+            <AppFooter />
         </el-container>
     </el-container>
 </template>
@@ -27,6 +29,7 @@
 // 导入组件
 
 import Header from "../../components/Display/Header";
+import AppFooter from "../../components/Display/Footer";
 
 export default {
     name: 'Manage',
@@ -41,7 +44,8 @@ export default {
     },
     // object对象，定义该页存在的组件
     components: {
-        Header
+        Header,
+        AppFooter
     },
     created() {
         // 页面加载时从后天获取user信息，存入页面
