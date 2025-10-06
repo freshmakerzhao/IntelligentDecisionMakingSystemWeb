@@ -16,22 +16,22 @@
         <div class="menu-en">Home</div>
       </div>
     </el-menu-item>
-    <el-menu-item index="/dashboard/about" class="menu-item-flex">
+    <el-menu-item index="/dashboard/cases" class="menu-item-flex">
       <div class="menu-label">
-        <div class="menu-cn">团队介绍</div>
-        <div class="menu-en">About Us</div>
+        <div class="menu-cn">案例介绍</div>
+        <div class="menu-en">Cases</div>
       </div>
     </el-menu-item>
-    <el-menu-item index="/dashboard/prediction" class="menu-item-flex">
+    <el-menu-item index="/dashboard/faq" class="menu-item-flex">
       <div class="menu-label">
-        <div class="menu-cn">预测系统</div>
-        <div class="menu-en">Prediction System</div>
+        <div class="menu-cn">常见问题</div>
+        <div class="menu-en">FAQ</div>
       </div>
     </el-menu-item>
-    <el-menu-item index="/dashboard/data" class="menu-item-flex">
+    <el-menu-item index="/dashboard/model" class="menu-item-flex">
       <div class="menu-label">
-        <div class="menu-cn">数据中心</div>
-        <div class="menu-en">Data Center</div>
+        <div class="menu-cn">模型决策</div>
+        <div class="menu-en">Model Decision</div>
       </div>
     </el-menu-item>
     <el-menu-item index="/dashboard/contact" class="menu-item-flex">
