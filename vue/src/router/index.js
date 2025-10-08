@@ -33,6 +33,7 @@ const routes = [
       { path: 'home', name: '主页', component: () => import('../views/Dashboard/A_Home')},
       { path: 'cases', name: '案例分析', component: () => import('../views/Dashboard/B_Cases')},
       { path: 'faq', name: '常见问题', component: () => import('../views/Dashboard/C_Faq')},
+      { path: 'model', name: '模型决策', component: () => import('../views/Dashboard/D_Model')},
       { path: 'about', name: '团队介绍', component: () => import('../views/Dashboard/E_About')}
     ]
   },

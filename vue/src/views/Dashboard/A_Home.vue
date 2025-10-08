@@ -60,7 +60,7 @@
       </el-col>
     </el-row>
     
-    <!-- 新增：最新公告与动态区域 -->
+    <!-- 最新公告与动态区域 -->
     <el-row :gutter="20" class="news-section-row">
         <el-col :span="24">
             <el-card class="news-card" :body-style="{ padding: '20px' }">

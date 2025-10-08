@@ -1,7 +1,7 @@
 <template>
   <div class="case-studies-container">
     
-    <!-- 新增：面包屑导航区域 (已改为动态渲染) -->
+    <!-- 面包屑导航区域 (已改为动态渲染) -->
     <div class="breadcrumb-container">
       <el-breadcrumb separator="/">
         <!-- 使用 v-for 动态渲染面包屑项 -->
