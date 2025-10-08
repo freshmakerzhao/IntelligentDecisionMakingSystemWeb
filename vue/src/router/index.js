@@ -11,17 +11,30 @@ const ROUTE_ROOT = '/';
 const routes = [
   {
     // 超级管理
-    path: '/level1',
-    component: () => import('../views/Level1/Manage.vue'),
-    redirect: "/level1/user",
+    path: '/administrator',
+    component: () => import('../views/Administrator/Manage.vue'),
+    redirect: "/administrator/user",
     children:[
-      { path: 'user', name: '用户管理', component: () => import('../views/Level1/Level1_A_User')},
-      { path: 'travel', name: '拼车出行', component: () => import('../views/Level1/Level1_B_Travel')},
-      { path: 'schoolKeeping', name: '跑腿代步', component: () => import('../views/Level1/Level1_C_SchoolKeeping')},
-      { path: 'lostAndFound', name: '失物招领', component: () => import('../views/Level1/Level1_D_LostAndFound')},
-      { path: 'secondHand', name: '闲置买卖', component: () => import('../views/Level1/Level1_E_SecondHand')},
-      { path: 'comment', name: '评论管理', component: () => import('../views/Level1/Level1_F_Comment')},
-      { path: 'person', name: '个人信息', component: () => import('../views/Level1/Level1_G_Person')}
+      { path: 'user', name: '用户管理', component: () => import('../views/Administrator/Administrator_A_User')},
+      { path: 'travel', name: '拼车出行', component: () => import('../views/Administrator/Administrator_B_Travel')},
+      { path: 'schoolKeeping', name: '跑腿代步', component: () => import('../views/Administrator/Administrator_C_SchoolKeeping')},
+      { path: 'lostAndFound', name: '失物招领', component: () => import('../views/Administrator/Administrator_D_LostAndFound')},
+      { path: 'secondHand', name: '闲置买卖', component: () => import('../views/Administrator/Administrator_E_SecondHand')},
+      { path: 'comment', name: '评论管理', component: () => import('../views/Administrator/Administrator_F_Comment')},
+      { path: 'person', name: '个人信息', component: () => import('../views/Administrator/Administrator_G_Person')}
+    ]
+  },
+  {
+    // 测试
+    path: '/dashboard',
+    component: () => import('../views/Dashboard/Manage.vue'),
+    redirect: "/dashboard/home",
+    children:[
+      { path: 'home', name: '主页', component: () => import('../views/Dashboard/A_Home')},
+      { path: 'cases', name: '案例分析', component: () => import('../views/Dashboard/B_Cases')},
+      { path: 'faq', name: '常见问题', component: () => import('../views/Dashboard/C_Faq')},
+      { path: 'model', name: '模型决策', component: () => import('../views/Dashboard/D_Model')},
+      { path: 'about', name: '团队介绍', component: () => import('../views/Dashboard/E_About')}
     ]
   },
   {
@@ -70,7 +83,6 @@ router.beforeEach((to, from, next) => {
     let hasToken = false;
 
     if (userJson) {
-        console.log(222222222222);
         try {
             const user = JSON.parse(userJson);
             // 检查 token 是否存在
@@ -81,10 +93,8 @@ router.beforeEach((to, from, next) => {
             hasToken = false;
         }
     }
-    console.log(333333333333);
     // 如果未登录
     if (!hasToken) {
-        console.log(444444444444444);
         if (to.path !== '/login') {
             Vue.prototype.$message.warning("请先登录才能访问此页面");
             next({

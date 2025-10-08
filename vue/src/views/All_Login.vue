@@ -61,8 +61,16 @@
                                 // 验证成功
                                 localStorage.setItem("user", JSON.stringify(res.data));
                                 this.$message.success("登录成功");
+                                console.log(res)
+                                console.log(res.data)
+                                console.log(res.data.rname)
                                 // 直接根据用户权限做跳转
-                                this.$router.push("/level1");
+                                if (res.data.rname){
+                                    this.$router.push("/dashboard");
+                                } else {
+                                    this.$router.push("/dashboard");
+                                }
+                                    
                             } else {
                                 // 验证失败
                                 this.$message.error(res.msg);
