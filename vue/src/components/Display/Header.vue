@@ -16,28 +16,28 @@
         <div class="menu-en">Home</div>
       </div>
     </el-menu-item>
-    <el-menu-item index="/dashboard/cases" class="menu-item-flex">
-      <div class="menu-label">
-        <div class="menu-cn">项目案例</div>
-        <div class="menu-en">Case Studies</div>
-      </div>
-    </el-menu-item>
-    <el-menu-item index="/dashboard/faq" class="menu-item-flex">
-      <div class="menu-label">
-        <div class="menu-cn">常见问题</div>
-        <div class="menu-en">FAQ</div>
-      </div>
-    </el-menu-item>
     <el-menu-item index="/dashboard/model" class="menu-item-flex">
       <div class="menu-label">
         <div class="menu-cn">模型决策</div>
         <div class="menu-en">Model Decision</div>
       </div>
     </el-menu-item>
+    <el-menu-item index="/dashboard/cases" class="menu-item-flex">
+      <div class="menu-label">
+        <div class="menu-cn">项目案例</div>
+        <div class="menu-en">Case Studies</div>
+      </div>
+    </el-menu-item>
     <el-menu-item index="/dashboard/about" class="menu-item-flex">
       <div class="menu-label">
         <div class="menu-cn">团队介绍</div>
         <div class="menu-en">Team Introduction</div>
+      </div>
+    </el-menu-item>
+    <el-menu-item index="/dashboard/faq" class="menu-item-flex">
+      <div class="menu-label">
+        <div class="menu-cn">常见问题</div>
+        <div class="menu-en">FAQ</div>
       </div>
     </el-menu-item>
   </el-menu>

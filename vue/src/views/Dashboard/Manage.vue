@@ -8,7 +8,7 @@
             <!-- 顶部大图 banner（在导航栏上方） -->
             <div class="top-banner">
                 <div class="banner-inner">
-                    <h1 class="banner-title">矿山安全开采智能决策系统</h1>
+                    <h1 class="banner-title">“辽望”大模型—矿山安全开采智能决策系统</h1>
                 </div>
             </div>
             

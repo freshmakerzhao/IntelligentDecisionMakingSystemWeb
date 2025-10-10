@@ -18,7 +18,7 @@
 
     <div class="dify-chat-area">
       <iframe
-        src="http://localhost:8081/chatbot/r8HI34wxCkVQquXU"
+        src="http://localhost:8081/chatbot/GPM7svwlg3Pa5sMn"
         frameborder="0"
         allow="microphone"
         class="dify-iframe-embed"
@@ -35,7 +35,7 @@ export default {
   data() {
     return {
       // 假设这是从路由或 API 获取的应用信息
-      appName: '智能知识库问答机器人 (Knoledge Bot)',
+      appName: '',
       // appDescription: '基于 Dify 驱动的智能聊天应用，用于解答企业内部文档和常见问题。',
       
       // *** 重点：Dify 应用的嵌入 URL ***
