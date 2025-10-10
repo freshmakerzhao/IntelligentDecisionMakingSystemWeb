@@ -88,7 +88,7 @@ export default {
 <style scoped>
 .team-container {
   padding: 30px;
-  max-width: 1200px; /* 适当缩小最大宽度以提高长文本阅读体验 */
+  max-width: 1600px;
   margin: 0 auto;
 }
 
