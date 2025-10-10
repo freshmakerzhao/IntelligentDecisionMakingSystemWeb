@@ -178,9 +178,8 @@ export default {
         paths.push(decisionLink); 
         
         if (this.currentView === 'chat' && this.selectedDomainName) {
-            // 聊天视图下，增加第三级路径 (xxx 机器人)
             // 最后一级总是不可点击
-            paths.push({ name: `${this.selectedDomainName} 机器人`, path: '' }); 
+            paths.push({ name: `${this.selectedDomainName}`, path: '' }); 
         }
       } 
       
