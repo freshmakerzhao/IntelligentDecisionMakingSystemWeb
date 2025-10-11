@@ -96,7 +96,7 @@ router.beforeEach((to, from, next) => {
     // 如果未登录
     if (!hasToken) {
         if (to.path !== '/login') {
-            Vue.prototype.$message.warning("请先登录才能访问此页面");
+            Vue.prototype.$message.warning("请登录");
             next({
                 path: '/login',
                 query: { redirect: to.fullPath } // 带上目标路径

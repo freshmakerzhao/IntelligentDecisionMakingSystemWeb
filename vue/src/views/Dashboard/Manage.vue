@@ -3,12 +3,27 @@
         <!-- 整个页面的外层容器 -->
         
         <!-- 内部容器：包含 Header, Main, Footer -->
-        <!--  Flex 布局，以便 el-main 能够撑开 -->
         <el-container direction="vertical">
             <!-- 顶部大图 banner（在导航栏上方） -->
             <div class="top-banner">
                 <div class="banner-inner">
                     <h1 class="banner-title">“辽望”大模型—矿山安全开采智能决策系统</h1>
+                </div>
+                
+                <!-- 用户显示和退出功能区域 -->
+                <div class="user-controls">
+                    <el-dropdown trigger="click" @command="handleCommand">
+                        <span class="el-dropdown-link user-info">
+                            <i class="el-icon-user-solid user-icon"></i>
+                            <!-- 显示用户名，如果未登录则显示“未登录用户” -->
+                            {{ user.name || '未登录用户' }} 
+                            <i class="el-icon-arrow-down el-icon--right"></i>
+                        </span>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item command="profile">个人中心</el-dropdown-item>
+                            <el-dropdown-item command="logout" divided>退出登录</el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
                 </div>
             </div>
             
@@ -72,24 +87,58 @@ export default {
         },
         // 获取用户信息，此方法利用@refreshUser，使得相关联页面也可以调用
         getUser() {
-            let userId = '';
-            // Note: 生产环境中应该使用更安全的身份验证方法
-            const userString = localStorage.getItem("user");
+            let userString = localStorage.getItem("user");
             if (userString) {
-                userId = JSON.parse(userString).id;
-                // 从后台获取到修改后的user数据，再传递给header
-                // 假设 this.request 存在
-                /*
-                this.request.get("/user/findOneById/" + userId).then(res => {
-                    this.user = res.data;
-                }).catch(err => {
-                    console.error("Failed to fetch user:", err);
-                });
-                */
-               // Mock user data if request is not available
-               this.user = { id: userId, name: "Admin" };
+                try {
+                    const parsedUser = JSON.parse(userString);
+                    const userId = parsedUser.id;
+
+                    this.user = { id: userId, name: parsedUser.username || "Admin" };
+
+                    // 假设 this.request 存在, 如果不需要真实请求，请保持注释
+                    /*
+                    this.request.get("/user/findOneById/" + userId).then(res => {
+                        this.user = res.data;
+                    }).catch(err => {
+                        console.error("Failed to fetch user:", err);
+                    });
+                    */
+                } catch (e) {
+                    console.error("Error parsing user from localStorage:", e);
+                    localStorage.removeItem("user"); // 清除无效数据
+                    this.user = {};
+                }
+            } else {
+                this.user = {};
             }
         },
+        
+        // 处理下拉菜单命令
+        handleCommand(command) {
+            if (command === 'logout') {
+                this.logout();
+            } else if (command === 'profile') {
+                // 占位
+                this.$message.info("即将跳转到个人中心...");
+            }
+        },
+        
+        // 退出登录逻辑
+        logout() {
+            // 1. 清除本地存储中的用户信息
+            localStorage.removeItem("user");
+            this.$message.success("退出成功！已清除登录状态。");
+            
+            // 2. 刷新 user 状态
+            this.user = {};
+            
+            // 3. 重定向到登录页面
+            if (this.$router) {
+                this.$router.push('/login');
+            } else {
+                console.warn("Router is not available. Logout successful.");
+            }
+        }
     }
 }
 </script>
@@ -113,11 +162,6 @@ body,
 
 /* 使 el-main 占据所有剩余空间 */
 .main-content {
-    /* 核心：flex: 1 0 auto 
-       flex-grow: 1 (内容少时拉伸占据空白)
-       flex-shrink: 0 (内容多时不允许收缩，确保其内容能够将父容器撑开)
-       flex-basis: auto
-    */
     flex: 1 0 auto; 
     
     /* 移除默认 padding，让内容完全由子组件控制 */
@@ -145,7 +189,7 @@ body,
     align-items: center;
     justify-content: center;
     color: #fff;
-    position: relative;
+    position: relative; /* 确保 user-controls 可以绝对定位 */
     z-index: 1;
 }
 /* 底部渐变阴影，用于与导航栏衔接 */
@@ -160,6 +204,39 @@ body,
     pointer-events: none;
     z-index: 0;
 }
+
+/* 用户控制区域样式 */
+.user-controls {
+    position: absolute;
+    top: 25px; /* 距离顶部的距离 */
+    right: 30px; /* 距离右侧的距离 */
+    z-index: 10;
+}
+
+.user-info {
+    cursor: pointer;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.3s;
+    padding: 8px 12px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1); /* 轻微背景 */
+    display: flex;
+    align-items: center;
+}
+.user-info:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+.user-icon {
+    font-size: 18px;
+    margin-right: 5px;
+}
+.el-dropdown-link {
+    /* 确保下拉菜单的链接能被识别为链接样式 */
+    color: #fff; 
+}
+
 
 /* 导航栏与 banner 的平滑过渡样式 */
 .dashboard-header-el {

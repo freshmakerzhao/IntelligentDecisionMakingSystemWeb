@@ -40,8 +40,15 @@
           <!-- 案例列表 -->
           <ul class="case-list">
             <li v-for="(caseItem, i) in category.cases" :key="i" class="case-item">
-              <!-- 使用 el-link 实现可点击的标题 -->
-              <el-link type="_blank" :underline="false" @click="viewCaseDetail(caseItem)">
+              <!-- 添加 title 属性，鼠标悬停时显示完整内容 -->
+              <!-- 添加 case-title-link 类，用于应用省略号样式 -->
+              <el-link 
+                type="_blank" 
+                :underline="false" 
+                @click="viewCaseDetail(caseItem)"
+                :title="caseItem.title"
+                class="case-title-link"
+              >
                 {{ caseItem.title }}
               </el-link>
               <span class="case-date">{{ caseItem.date }}</span>
@@ -79,7 +86,15 @@
           
           <ul class="case-list">
             <li v-for="(caseItem, i) in category.cases" :key="i" class="case-item">
-              <el-link type="_blank" :underline="false" @click="viewCaseDetail(caseItem)">
+              <!-- 添加 title 属性，鼠标悬停时显示完整内容 -->
+              <!-- 添加 case-title-link 类，用于应用省略号样式 -->
+              <el-link 
+                type="_blank" 
+                :underline="false" 
+                @click="viewCaseDetail(caseItem)"
+                :title="caseItem.title"
+                class="case-title-link"
+              >
                 {{ caseItem.title }}
               </el-link>
               <span class="case-date">{{ caseItem.date }}</span>
@@ -189,7 +204,7 @@ export default {
   },
   computed: {
     breadcrumbs() {
-      // 模拟当前页面的路径。在实际应用中，this.$route.path 会自动反映当前 URL。
+      // 模拟当前页面的路径。
       const currentPath = this.$route ? this.$route.path : '/dashboard/cases';
 
       let paths = [
@@ -214,8 +229,8 @@ export default {
     },
     // 模拟跳转到更多案例列表
     viewMore(category) {
-      console.log('查看更多分类案例:', category.title);
-      this.$message.success(`正在加载 "${category.title}" 的全部案例...`);
+      console.log('查看更多分类案例:', category.title_zh);
+      this.$message.success(`正在加载 "${category.title_zh}" 的全部案例...`);
     }
   }
 };
@@ -279,10 +294,8 @@ export default {
 }
 
 .card-header {
-    /* 移除旧的 font-size, font-weight，由内部 span 控制 */
     color: #409EFF; /* 保持主题色 */
     padding: 10px 0;
-    
 }
 .two-line-header {
     display: flex;
@@ -290,9 +303,8 @@ export default {
 }
 
 .title-wrapper {
-    /* 允许 <br/> 标签工作 */
     display: inline-block; 
-    line-height: 1.1; /* 减少行间距，让标题更紧凑 */
+    line-height: 1.1; 
     padding: 5px 0;
 }
 .zh-title {
@@ -318,7 +330,8 @@ export default {
 
 .case-item {
     display: flex;
-    justify-content: space-between;
+    /* 确保标题和日期左右对齐 */
+    justify-content: space-between; 
     align-items: center;
     padding: 10px 0;
     border-bottom: 1px dashed #EBEEF5;
@@ -329,8 +342,44 @@ export default {
     border-bottom: none;
 }
 
+/* --- 案例标题省略号和悬停提示 --- */
+.case-title-link {
+    /* 强制左对齐容器内的文本 */
+    text-align: left; 
+    
+    /* Flex 布局属性：让链接占据剩余空间 */
+    flex: 1;
+    min-width: 0; /* 解决 flex 容器中的子元素溢出问题 */
+    margin-right: 10px; /* 与日期分隔 */
+
+    /* 截断属性 */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/* 针对 el-link 内部的文本元素应用截断属性，并强制左对齐 */
+.case-title-link >>> span {
+    /* 确保 span 是一个块级元素，可以完全占据 el-link 的宽度 */
+    display: block; 
+    /* 强制内部span占据el-link的全部宽度 */
+    width: 100%; 
+    /* 再次强制内部文本左对齐 */
+    text-align: left;
+    
+    /* 截断属性 */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+/* --- 结束 案例标题省略号和悬停提示 --- */
+
 .case-date {
+    /* 确保日期不被挤压，保持固定宽度 */
+    flex-shrink: 0; 
     color: #909399;
+    font-size: 13px;
+    margin-left: 5px;
 }
 
 .view-more-footer {
