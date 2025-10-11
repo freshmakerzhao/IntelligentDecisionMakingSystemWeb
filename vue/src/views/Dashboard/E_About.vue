@@ -38,6 +38,26 @@
       </el-col>
     </el-row>
 
+    <!-- 公司图片轮播图区域 -->
+    <el-row class="carousel-row">
+      <el-col :span="24">
+        <el-card shadow="hover" class="carousel-card">
+          <div slot="header" class="carousel-header">
+            <span>图片展示 (Company Gallery)</span>
+          </div>
+          <!-- 轮播图高度调整为 350px，更匹配 1920x500 的宽屏比例 -->
+          <el-carousel :interval="4000" type="card" height="350px" class="company-carousel">
+            <el-carousel-item v-for="(image, index) in companyImages" :key="index">
+              <div class="image-slide">
+                <img :src="image.url" :alt="image.caption" class="carousel-image"/>
+                <div class="image-caption">{{ image.caption }}</div>
+              </div>
+            </el-carousel-item>
+          </el-carousel>
+        </el-card>
+      </el-col>
+    </el-row>
+
     <!-- 底部留白 -->
     <div style="height: 40px;"></div>
   </div>
@@ -48,7 +68,24 @@ export default {
   name: 'TeamIntroduction',
   data() {
     return {
-      // Data is minimal as content is static
+      companyImages: [
+        { 
+          url: require('../../assets/banner01.jpg'), 
+          caption: '集团总部大楼' 
+        },
+        { 
+          url: require('../../assets/banner03.png'), 
+          caption: '工程设备' 
+        },
+        { 
+          url: require('../../assets/banner02.png'), 
+          caption: '井下作业' 
+        },
+        { 
+          url: require('../../assets/banner04.png'), 
+          caption: '工程设备' 
+        }
+      ]
     }
   },
   computed: {
@@ -111,6 +148,7 @@ export default {
 
 .intro-card {
     border-radius: 10px;
+    margin-bottom: 40px; /* 增加底部间距与轮播图分离 */
 }
 
 /* 覆盖 el-card header 样式 */
@@ -133,5 +171,81 @@ export default {
 
 .intro-paragraph.last-paragraph {
     margin-bottom: 0;
+}
+
+/* --- 轮播图区域样式 --- */
+.carousel-row {
+    margin-bottom: 40px;
+}
+
+.carousel-card {
+    border-radius: 10px;
+    /* 移除卡片默认的 body padding，让轮播图撑满 */
+}
+
+/* 覆盖 el-card body，移除 padding */
+.carousel-card >>> .el-card__body {
+    padding: 0; 
+    overflow: hidden; /* 防止内容溢出 */
+    border-radius: 0 0 10px 10px;
+}
+
+.carousel-header {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0a3a6b;
+    padding: 10px 20px;
+    text-align: center;
+    border-bottom: 1px solid #EBEEF5;
+}
+
+.company-carousel {
+    border-radius: 0 0 10px 10px;
+    padding: 10px 0; /* 给轮播图本身留出上下间距 */
+}
+
+.el-carousel__item {
+    border-radius: 8px; /* 轮播项内部圆角 */
+    overflow: hidden;
+    transition: transform 0.4s ease;
+}
+
+.image-slide {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background-color: #f5f7fa; /* 添加背景色，用于 contain 模式下的留白区域 */
+}
+
+.carousel-image {
+    width: 100%;
+    height: 100%;
+    /* 关键更改：使用 contain 确保整个图片可见，不被裁剪 */
+    object-fit: contain; 
+}
+
+.image-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    text-align: center;
+    opacity: 0.9;
+}
+
+/* 响应式调整轮播图高度 */
+@media (max-width: 768px) {
+    .company-carousel {
+        /* 适应更宽的 1920x500 比例，从 250px 调整到 200px */
+        height: 200px !important; 
+    }
+    .image-caption {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
 }
 </style>
