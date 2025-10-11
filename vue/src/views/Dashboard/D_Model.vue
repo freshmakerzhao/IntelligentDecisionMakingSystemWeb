@@ -121,7 +121,7 @@ export default {
             selectedDomainName: '', 
             
             // *** Dify 应用的嵌入 URL，用于演示，请替换为您的实际地址 ***
-            appEmbedUrl: 'http://localhost:8081/chatbot/GPM7svwlg3Pa5sMn',
+            appEmbedUrl: 'http://localhost:8081/chatbot/AlC2ZVgEkS1GkMpf',
             
             // 气泡数据：1大 + 7小
             domains: domainsData,
@@ -300,7 +300,6 @@ export default {
     margin: 0 auto;
     padding-top: 80%; /* 宽高比 10:8 (宽:高) */
     position: relative;
-    border: 1px solid #DCDFE6;
 }
 
 /* 气泡场内部内容 */
