@@ -28,8 +28,8 @@ public class TaskUtil {
     }
 
     // 五分钟检查一次，并删除超过出发时间的出行帖子
-    @Scheduled(cron = "* 0/5 * * * ?")
-    private static void process(){
-        taskUtil.travelService.remove(new QueryWrapper<Travel>().apply("from_time <= DATE_SUB(NOW(), INTERVAL 5 MINUTE)"));
-    }
+    // @Scheduled(cron = "* 0/5 * * * ?")
+    // private static void process(){
+    //     taskUtil.travelService.remove(new QueryWrapper<Travel>().apply("from_time <= DATE_SUB(NOW(), INTERVAL 5 MINUTE)"));
+    // }
 }

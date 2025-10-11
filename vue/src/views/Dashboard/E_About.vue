@@ -16,30 +16,44 @@
     </div>
 
     <h1 class="page-title">团队介绍 (Team Introduction)</h1>
-    <p class="page-subtitle">国家矿山安全重点实验室简介</p>
+    <p class="page-subtitle">简介</p>
 
     <!-- 实验室简介内容卡片 -->
     <el-row :gutter="30" class="intro-row">
       <el-col :span="24">
         <el-card shadow="always" class="intro-card">
-          
-          <!-- 栏目标题，突出显示 -->
-          <div slot="header" class="card-header-title">
-            <i class="el-icon-school"></i> 实验室简介 (Laboratory Introduction)
-          </div>
-          
           <!-- 内容区域 -->
           <div class="intro-content">
             <p class="intro-paragraph">
-              煤矿冲击地压机理与防控技术国家矿山安全监察局重点实验室以辽宁大学为牵头单位，依托辽宁大学、辽宁工程技术大学、中国中煤能源集团有限公司、煤炭科学技术研究院有限公司4家单位共同建设，实验室于2024年经国家矿山安全监察局批准成立，是国家矿山安全监察局批准建设的第二批重点实验室之一。
+              “辽望”大模型—矿山安全开采智能决策系统由辽宁大学与辽宁鑫丰矿业（集团）有限公司共同开发，是深度合作的重大产学研成果。
             </p>
             <p class="intro-paragraph">
-              实验室实行依托单位领导下的主任负责制，设立学术委员会作为实验室的学术指导机构。实验室的研究方向包括：冲击地压灾害岩体力学基础理论研究、冲击地压灾害微震电荷监测大数据关键技术与装备、本煤层自解放保护层开采防突关键技术、采场全域协同自适应液压支护防治冲击地压动力灾害关键技术与装备、冲击地压复合动力灾害一体化预测与防治关键技术与装备、冲击地压煤层智能化开采关键技术与装备。
+              辽宁鑫丰矿业（集团）有限公司，作为一家集产品研发、设备制造、工程服务、煤矿托管于一体的创新型高新技术企业，是本项目的实践主体和数据来源核心。集团拥有 800 余名专业人才，通过了 ISO 质量管理体系认证，荣获“辽宁省级企业技术中心”等多项荣誉，更在全国有轨安装领域位居榜首。鑫丰集团为联合团队提供了 15 年积累的海量、真实、高质量的煤矿工业数据，以及对煤炭行业安全管理和设备运行的深刻理解，确保了平台决策结果的工程可行性与实际应用价值。
             </p>
             <p class="intro-paragraph last-paragraph">
-              冲击地压监测预警实验室面向世界科技前沿和国家防灾减灾重大需求，以“问题是创新的起点，也是创新的动力源”为核心理念，坚持社会实现场景真实问题，紧密结合矿山安全监测预警难题，应用大数据、人工智能、云计算等高新技术，突破矿震、微震、地音、应力、电荷和钻屑六大监测方法基础理论、设备研发与现场应用关键技术创新，为煤矿冲击地压监测预警提供解决方案，切实提升我国煤矿冲击地压监测预警水平，有效预防和遏制冲击地压事故。
+              辽宁大学作为国家“ 211 工程”重点建设院校，依托其在应用经济学、统计学、信息科学与技术等学科的优势，为“智能决策平台”的内核提供了坚实的理论基础和前沿算法支持。团队成功将复杂的煤矿场景问题转化为精确的决策优化模型，设计和构建了系统的核心算法、风险评估体系和数据可视化框架，确保平台具备高精度、高稳定性的数据处理和决策能力。
             </p>
           </div>
+        </el-card>
+      </el-col>
+    </el-row>
+
+    <!-- 公司图片轮播图区域 -->
+    <el-row class="carousel-row">
+      <el-col :span="24">
+        <el-card shadow="hover" class="carousel-card">
+          <div slot="header" class="carousel-header">
+            <span>图片展示 (Company Gallery)</span>
+          </div>
+          <!-- 轮播图高度调整为 350px，更匹配 1920x500 的宽屏比例 -->
+          <el-carousel :interval="4000" type="card" height="350px" class="company-carousel">
+            <el-carousel-item v-for="(image, index) in companyImages" :key="index">
+              <div class="image-slide">
+                <img :src="image.url" :alt="image.caption" class="carousel-image"/>
+                <div class="image-caption">{{ image.caption }}</div>
+              </div>
+            </el-carousel-item>
+          </el-carousel>
         </el-card>
       </el-col>
     </el-row>
@@ -54,7 +68,24 @@ export default {
   name: 'TeamIntroduction',
   data() {
     return {
-      // Data is minimal as content is static
+      companyImages: [
+        { 
+          url: require('../../assets/banner01.jpg'), 
+          caption: '集团总部大楼' 
+        },
+        { 
+          url: require('../../assets/banner03.png'), 
+          caption: '工程设备' 
+        },
+        { 
+          url: require('../../assets/banner02.png'), 
+          caption: '井下作业' 
+        },
+        { 
+          url: require('../../assets/banner04.png'), 
+          caption: '工程设备' 
+        }
+      ]
     }
   },
   computed: {
@@ -88,7 +119,7 @@ export default {
 <style scoped>
 .team-container {
   padding: 30px;
-  max-width: 1200px; /* 适当缩小最大宽度以提高长文本阅读体验 */
+  max-width: 1600px;
   margin: 0 auto;
 }
 
@@ -117,22 +148,12 @@ export default {
 
 .intro-card {
     border-radius: 10px;
+    margin-bottom: 40px; /* 增加底部间距与轮播图分离 */
 }
 
 /* 覆盖 el-card header 样式 */
 .intro-card >>> .el-card__header {
     border-bottom: 2px solid #EBEEF5;
-}
-
-.card-header-title {
-    font-size: 24px;
-    font-weight: 700;
-    color: #0a3a6b; /* 使用深蓝色突出标题 */
-}
-
-.card-header-title i {
-    margin-right: 10px;
-    font-size: 26px;
 }
 
 .intro-content {
@@ -150,5 +171,81 @@ export default {
 
 .intro-paragraph.last-paragraph {
     margin-bottom: 0;
+}
+
+/* --- 轮播图区域样式 --- */
+.carousel-row {
+    margin-bottom: 40px;
+}
+
+.carousel-card {
+    border-radius: 10px;
+    /* 移除卡片默认的 body padding，让轮播图撑满 */
+}
+
+/* 覆盖 el-card body，移除 padding */
+.carousel-card >>> .el-card__body {
+    padding: 0; 
+    overflow: hidden; /* 防止内容溢出 */
+    border-radius: 0 0 10px 10px;
+}
+
+.carousel-header {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0a3a6b;
+    padding: 10px 20px;
+    text-align: center;
+    border-bottom: 1px solid #EBEEF5;
+}
+
+.company-carousel {
+    border-radius: 0 0 10px 10px;
+    padding: 10px 0; /* 给轮播图本身留出上下间距 */
+}
+
+.el-carousel__item {
+    border-radius: 8px; /* 轮播项内部圆角 */
+    overflow: hidden;
+    transition: transform 0.4s ease;
+}
+
+.image-slide {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background-color: #f5f7fa; /* 添加背景色，用于 contain 模式下的留白区域 */
+}
+
+.carousel-image {
+    width: 100%;
+    height: 100%;
+    /* 关键更改：使用 contain 确保整个图片可见，不被裁剪 */
+    object-fit: contain; 
+}
+
+.image-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    text-align: center;
+    opacity: 0.9;
+}
+
+/* 响应式调整轮播图高度 */
+@media (max-width: 768px) {
+    .company-carousel {
+        /* 适应更宽的 1920x500 比例，从 250px 调整到 200px */
+        height: 200px !important; 
+    }
+    .image-caption {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
 }
 </style>

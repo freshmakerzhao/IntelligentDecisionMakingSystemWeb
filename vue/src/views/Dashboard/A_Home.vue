@@ -14,47 +14,55 @@
     <!-- 主内容区：实时监测与风险分析 -->
     <el-row :gutter="20" class="main-content-row">
       
-      <!-- 左侧：实时监测数据图表 (桌面端占 16 份宽度，移动端占 24 份) -->
+      <!-- 左侧：累计案例统计图表 (桌面端占 16 份宽度，移动端占 24 份) -->
       <el-col :xs="24" :lg="16">
         <el-card class="chart-card" :body-style="{ padding: '20px' }">
           <div class="card-header">
-            <span>甲烷浓度实时监测趋势 (Methane Concentration Trend)</span>
+            <span>累计案例数 (Cumulative Cases)</span>
           </div>
-          <!-- 模拟图表容器 -->
-          <div class="chart-placeholder">
-            <div class="mock-chart-line-container">
-                <svg width="100%" height="100%" viewBox="0 0 400 150" preserveAspectRatio="none">
-                    <polyline points="0,140 50,110 100,100 150,80 200,60 250,90 300,70 350,50 400,30"
-                              fill="none" stroke="#409EFF" stroke-width="3" stroke-linecap="round"/>
-                    <text x="360" y="30" fill="#E6A23C" font-size="12">↑ 0.8%</text>
-                    <line x1="0" y1="140" x2="400" y2="140" stroke="#EBEEF5" stroke-width="1"/>
-                </svg>
-            </div>
+          
+          <!-- 柱状图容器 -->
+          <div class="bar-chart-container">
+              <!-- 循环渲染 7 个领域的累计案例 -->
+              <div v-for="(data, index) in cumulativeCaseData" :key="index" class="bar-item">
+                  <div class="bar-label">{{ data.name }}</div>
+                  <div class="bar-wrapper">
+                      <!-- 柱子：宽度根据案例数占最大案例数的比例计算 -->
+                      <div 
+                          class="bar" 
+                          :style="{ 
+                              width: (data.cases / maxCases) * 100 + '%', 
+                              backgroundColor: data.color 
+                          }"
+                      ></div>
+                      <!-- 案例数字 -->
+                      <span class="case-count">{{ data.cases }}</span>
+                  </div>
+              </div>
           </div>
         </el-card>
       </el-col>
 
-      <!-- 右侧：智能决策建议与健康度 (桌面端占 8 份宽度，移动端占 24 份) -->
+      
+      <!-- 右侧：关键设备健康度 (桌面端占 8 份宽度，移动端占 24 份) -->
       <el-col :xs="24" :lg="8">
         <el-card class="text-card" :body-style="{ padding: '20px' }">
           <div class="card-header">
-            <span>实时风险与决策建议 (Risk & Decision Advice)</span>
+            <span>关键设备健康度 (Health Status)</span>
           </div>
           <div class="text-content">
-            <el-alert
-                title="当前风险等级：低"
-                type="success"
-                description="系统评估井下环境稳定，无重大风险源触发，保持正常开采作业。"
-                show-icon
-                :closable="false"
-                style="margin-bottom: 15px;"
-            />
-            <h4 style="color: #606266; margin-top: 10px;">关键设备健康度分析：</h4>
-            <el-progress :percentage="92" :format="() => '通风系统'" color="#67C23A"></el-progress>
-            <el-progress :percentage="85" :format="() => '提升设备'" color="#E6A23C"></el-progress>
-            <el-progress :percentage="78" :format="() => '排水泵站'" color="#F56C6C"></el-progress>
-            
-            <el-button type="warning" size="medium" style="margin-top: 20px;" icon="el-icon-s-promotion">查看全部决策报告</el-button>
+            <!-- 仅保留设备健康度进度条，并使用循环渲染 -->
+            <div v-for="(item, index) in equipmentHealth" :key="index" class="health-item-wrapper">
+                <el-row>
+                  <el-col :span="4"><div class="health-item-label">{{ item.name }}</div></el-col>
+                  <el-col :span="20"><el-progress 
+                    class="health-item-progress"
+                    :percentage="item.percentage" 
+                    :color="item.color" 
+                    :stroke-width="12"
+                ></el-progress></el-col>
+                </el-row>
+            </div>
           </div>
         </el-card>
       </el-col>
@@ -68,14 +76,14 @@
                     <span>系统公告与技术支持 (System Announcements)</span>
                 </div>
                 <el-collapse v-model="activeNames" accordion>
-                    <el-collapse-item title="【重要】系统 $3.1$ 版本更新通知 - 优化预警算法" name="1">
+                    <el-collapse-item title="【重要】系统 3.1 版本更新通知 - 优化预警算法" name="1">
                         <div>新版本对预警模型的灵敏度和准确性进行了提升，并增强了移动端访问的稳定性。</div>
                     </el-collapse-item>
                     <el-collapse-item title="高危区域视频监控接入指南" name="2">
                         <div>为保障开采安全，请各部门按照最新指南完成所有高危区域视频流的接入配置。</div>
                     </el-collapse-item>
                     <el-collapse-item title="平台年度数据备份与恢复演练通知" name="3">
-                        <div>演练将于 $11$ 月 $10$ 日进行，请数据管理员提前准备相关资料。</div>
+                        <div>演练将于 11 月 10 日进行，请数据管理员提前准备相关资料。</div>
                     </el-collapse-item>
                 </el-collapse>
             </el-card>
@@ -93,38 +101,75 @@ export default {
   name: 'Dashboard',
   data() {
     return {
-      // 模拟统计数据
       stats: [
-        { label: '实时风险指数 (RRI)', value: '1.25', icon: 'el-icon-warning-outline' },
-        { label: '累计安全天数 (CSD)', value: '689', icon: 'el-icon-magic-stick' },
-        { label: '设备健康度 (EHS)', value: '88%', icon: 'el-icon-setting' },
-        { label: '预警事件总数 (TEA)', value: '18', icon: 'el-icon-bell' }
+        { label: '总案例数量 (Total Cases)', value: '1,500', icon: 'el-icon-s-order' },
+        { label: '总煤矿数量 (Total Mines)', value: '345', icon: 'el-icon-office-building' },
+        { label: '平均设备健康度 (Avg. Health)', value: '88%', icon: 'el-icon-setting' },
+        { label: '累计安全天数 (Safety Days)', value: '689', icon: 'el-icon-magic-stick' }
       ],
-      activeNames: ['1'] // 默认展开第一个折叠面板
+      activeNames: ['1'], // 默认展开第一个折叠面板
+      
+      // 关键设备健康度数据 (已根据您的最新请求扩充)
+      equipmentHealth: [
+        { name: '采煤', percentage: 92, color: '#909399' },
+        { name: '掘进', percentage: 85, color: '#F56C6C' },
+        { name: '安装回撤', percentage: 78, color: '#E6A23C' },
+        { name: '辅助运输', percentage: 92, color: '#E44D26' },
+        { name: '机电', percentage: 85, color: '#67C23A' },
+        { name: '通风', percentage: 95, color: '#6F42C1' },
+        { name: '应急救援', percentage: 88, color: '#409EFF' }
+      ]
     }
   },
+  computed: {
+    /**
+     * 计算累计案例数据，用于柱状图。
+     * 数据固定用于演示。
+     */
+    cumulativeCaseData() {
+        // 定义 7 个领域及其模拟案例数据
+        const rawData = [
+            { name: '采煤', color: '#909399', cases: 350 },
+            { name: '掘进', color: '#F56C6C', cases: 280 },
+            { name: '安装回撤', color: '#E6A23C', cases: 420 },
+            { name: '辅助运输', color: '#E44D26', cases: 120 },
+            { name: '机电', color: '#67C23A', cases: 180 },
+            { name: '通风', color: '#6F42C1', cases: 90 },
+            { name: '应急救援', color: '#409EFF', cases: 60 },
+        ];
+        return rawData;
+    },
+    
+    /**
+     * 获取最大案例数，用于计算柱状图的百分比宽度。
+     */
+    maxCases() {
+        // 确保数据不为空
+        if (this.cumulativeCaseData.length === 0) return 1;
+        return Math.max(...this.cumulativeCaseData.map(d => d.cases));
+    }
+  }
 };
 </script>
 
 <style scoped>
 .dashboard-container {
   padding: 20px;
-  max-width: 1400px; /* 适当增加最大宽度以容纳更多信息 */
+  max-width: 1600px; /* 适当增加最大宽度以容纳更多信息 */
   margin: 0 auto;
+  font-family: 'Inter', sans-serif;
 }
 
-.main-title {
-  font-size: 34px;
-  font-weight: 800;
-  color: #0a3a6b;
-  text-align: center;
+.page-title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #303133;
   margin-bottom: 5px;
 }
 
-.subtitle {
+.page-subtitle {
     font-size: 16px;
     color: #909399;
-    text-align: center;
     margin-bottom: 30px;
 }
 
@@ -189,24 +234,72 @@ export default {
 
 /* 图表占位符样式 */
 .chart-placeholder {
-    height: 300px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: #f5f7fa;
-    border-radius: 8px;
-    color: #909399;
+    /* 移除旧的占位符背景和居中，让图表容器控制 */
     font-size: 14px;
-    padding: 20px;
+    padding: 20px 0; 
     position: relative;
+    height: auto;
+    min-height: 350px;
 }
 
-/* 模拟折线图样式 */
-.mock-chart-line-container {
-    width: 95%;
-    height: 100%;
-    margin-top: 15px;
+/* --- 累计案例柱状图样式 --- */
+.bar-chart-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* 增加间距 */
+  padding: 10px 0;
+  min-height: 300px; /* 确保图表区域有足够的空间 */
+  justify-content: center; /* 垂直居中 */
+}
+
+.bar-item {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  color: #606266;
+}
+
+.bar-label {
+  /* 领域名称的固定宽度 */
+  width: 130px; 
+  flex-shrink: 0;
+  text-align: right;
+  padding-right: 20px;
+  font-weight: 500;
+}
+
+.bar-wrapper {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  /* 限制最大宽度，防止条形图过长 */
+  max-width: calc(100% - 150px); 
+}
+
+.bar {
+  height: 22px; /* 增加高度 */
+  border-radius: 4px;
+  /* 增加过渡动画，使 bar 长度变化更平滑 */
+  transition: width 1s cubic-bezier(0.25, 0.8, 0.5, 1); 
+  margin-right: 15px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.case-count {
+  font-weight: bold;
+  color: #303133;
+  min-width: 30px;
+  font-size: 14px;
+}
+
+/* --- 关键设备健康度样式 --- */
+.health-item-wrapper {
+    margin-bottom: 27px; /* 增加每个项目之间的间距 */
+}
+
+.health-item-label {
+    font-size: 13px;
+    color: #606266;
 }
 
 /* --- 文字介绍/公告样式 --- */
@@ -227,25 +320,29 @@ export default {
     height: 10px;
 }
 
+
 /* 响应式调整 */
 @media (max-width: 992px) {
     .dashboard-container {
-        padding: 10px;
+      padding: 10px;
     }
-    .main-title {
-        font-size: 24px;
+    /* 修正：使用实际的标题类名 */
+    .page-title {
+      font-size: 24px;
     }
-    .subtitle {
-        font-size: 14px;
+    /* 修正：使用实际的副标题类名 */
+    .page-subtitle {
+      font-size: 14px;
     }
     .chart-card {
-        margin-bottom: 20px; 
+      margin-bottom: 20px; 
     }
     .stat-value {
-        font-size: 28px;
+      font-size: 28px;
     }
     .stat-icon {
-        font-size: 36px;
-    }
+      font-size: 36px;
+  }
 }
 </style>
+
