@@ -121,8 +121,10 @@ export default {
             selectedDomainName: '', 
             
             // *** Dify 应用的嵌入 URL，用于演示，请替换为您的实际地址 ***
-            appEmbedUrl: 'http://localhost:8081/chatbot/AlC2ZVgEkS1GkMpf',
-            
+            // 本地地址
+            // appEmbedUrl: 'http://localhost:8081/chatbot/AlC2ZVgEkS1GkMpf',
+            // 线上地址
+            appEmbedUrl: "http://8.152.7.157:8081/chatbot/XZX4KFxc3rOKEod3",
             // 气泡数据：1大 + 7小
             domains: domainsData,
             // 手机端按钮列表数据 (排除大模型)
