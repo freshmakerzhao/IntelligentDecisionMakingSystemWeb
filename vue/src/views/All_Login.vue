@@ -60,9 +60,10 @@
                             size="medium" 
                             class="register-button"
                             autocomplete="off" 
-                            @click="$router.push('/register')">
+                            @click="displayInfo">
                             注 册
                         </el-button>
+                        <!-- @click="$router.push('/register')"> -->
                     </el-form-item>
                 </el-form>
             </div>
@@ -113,6 +114,9 @@
                         })
                     }
                 });
+            },
+            displayInfo(){
+                this.$message.success("正在跳转注册页");
             }
         }
     }
